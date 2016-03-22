@@ -10,6 +10,11 @@ app.config([
         templateUrl: '/home.html',
         controller: 'MainCtrl'
       });
+      .state('posts', {
+        url: '/posts/{id}',
+        templateUrl: '/posts.html',
+        controller: 'PostsCtrl'
+      });
     $urlRouterProvider.otherwise('home');
   }]);
 
@@ -21,7 +26,7 @@ app.factory('posts', [function(){
 }]);
 
 
-app.controller(''MainCtrl'', [
+app.controller('MainCtrl', [
   '$scope',
   'posts',
   function($scope, posts){
@@ -39,7 +44,11 @@ app.controller(''MainCtrl'', [
       $scope.posts.push({
         title: $scope.title,
         url: "https://"+$scope.url,
-        upvotes: 0
+        upvotes: 0,
+        comments: [
+          {author: "Carl", body: "Awesome post!", upvotes: 0},
+          {author: "Patrick", body: "Great read!", upvotes: 0}
+        ]
       });
       $scope.title = ''
       $scope.url = ''
@@ -47,4 +56,22 @@ app.controller(''MainCtrl'', [
     $scope.incrementUpvotes = function(post){
       post.upvotes += 1;
     }
+  }]);
+
+app.controller('PostsCtrl', [
+  '$scope',
+  '$stateParams',
+  'posts',
+  function($scope, $stateParams, posts) {
+    $scope.post = posts.post[$stateParams.id];
+    $scope.addComment = function() {
+      if ($scope.body === '') {return;}
+      $scope.post.comments.push({
+        body: $scope.body,
+        author: 'user',
+        upvotes: 0
+      });
+      $scope.body = '';
+    };
+
   }]);
