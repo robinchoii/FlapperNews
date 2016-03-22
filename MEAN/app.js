@@ -1,30 +1,4 @@
-var app = angular.module('flapperNews', ['ui.router');
-
-app.config([
-  '$stateProvider',
-  '$urlRouterProvider',
-  function($stateProvider, $urlRouterProvider) {
-    $stateProvider
-      .state('home', {
-        url: '/home',
-        templateUrl: '/home.html',
-        controller: 'MainCtrl'
-      });
-      .state('posts', {
-        url: '/posts/{id}',
-        templateUrl: '/posts.html',
-        controller: 'PostsCtrl'
-      });
-    $urlRouterProvider.otherwise('home');
-  }]);
-
-app.factory('posts', [function(){
-  var o = {
-    posts: []
-  };
-  return o;
-}]);
-
+var app = angular.module('flapperNews', ['ui.router']);
 
 app.controller('MainCtrl', [
   '$scope',
@@ -32,13 +6,7 @@ app.controller('MainCtrl', [
   function($scope, posts){
     $scope.test = "Hello world!";
     $scope.posts = posts.posts
-    // $scope.posts = [
-    //   {title: 'Github', upvotes: 53, url: "https://www.github.com"},
-    //   {title: 'HackerNews', upvotes: 23, url: "https://news.ycombinator.com"},
-    //   {title: 'Twitter', upvotes: 25, url: "https://www.twitter.com"},
-    //   {title: 'Google', upvotes: 39, url: "https://www.google.com"},
-    //   {title: 'GeekWire', upvotes: 44, url: "https://www.geekwire.com"}
-    // ];
+
     $scope.addPost = function(){
       if(!$scope.title || $scope.title === '') {return;}
       $scope.posts.push({
@@ -73,5 +41,40 @@ app.controller('PostsCtrl', [
       });
       $scope.body = '';
     };
+}]);
 
-  }]);
+app.factory('posts', [function(){
+  var o = {
+    posts: [
+      {title: 'Github', upvotes: 53, url: "https://www.github.com"},
+      {title: 'HackerNews', upvotes: 23, url: "https://news.ycombinator.com"},
+      {title: 'Twitter', upvotes: 25, url: "https://www.twitter.com"},
+      {title: 'Google', upvotes: 39, url: "https://www.google.com"},
+      {title: 'GeekWire', upvotes: 44, url: "https://www.geekwire.com"}
+    ]
+  };
+  return o;
+}]);
+
+
+app.config([
+  '$stateProvider',
+  '$urlRouterProvider',
+  function($stateProvider, $urlRouterProvider) {
+
+    $stateProvider
+      .state('home', {
+        url: '/home',
+        templateUrl: '/home.html',
+        controller: 'MainCtrl'
+      });
+
+    $stateProvider
+      .state('posts', {
+        url: '/posts/{id}',
+        templateUrl: '/posts.html',
+        controller: 'PostsCtrl'
+      });
+
+    $urlRouterProvider.otherwise('home');
+}]);
