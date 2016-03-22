@@ -2,26 +2,26 @@ var app = angular.module('flapperNews', []);
 
 app.controller('MainCtrl', [
   '$scope',
-  function($scope) {
-    $scope.test = 'Hello world!';
+  function($scope){
+    $scope.test = "Hello world!";
     $scope.posts = [
-      {title: 'post 1', upvotes: 10},
-      {title: 'post 2', upvotes: 8},
-      {title: 'post 3', upvotes: 6},
-      {title: 'post 4', upvotes: 4},
-      {title: 'post 5', upvotes: 2}
+      {title: 'Github', upvotes: 53, url: "https://www.github.com"},
+      {title: 'HackerNews', upvotes: 23, url: "https://news.ycombinator.com"},
+      {title: 'Twitter', upvotes: 25, url: "https://www.twitter.com"},
+      {title: 'Google', upvotes: 39, url: "https://www.google.com"},
+      {title: 'GeekWire', upvotes: 44, url: "https://www.geekwire.com"}
     ];
-    $scope.addPost = function() {
-      if(!$scope.title || $scope.title === '') { return;}
+    $scope.addPost = function(){
+      if(!$scope.title || $scope.title === '') {return;}
       $scope.posts.push({
         title: $scope.title,
-        link: $scope.link,
+        url: "https://"+$scope.url,
         upvotes: 0
       });
-      $scope.title = "";
-      $scope.link = "";
+      $scope.title = ''
+      $scope.url = ''
     };
-    $scope.incrementUpvotes = function(post) {
+    $scope.incrementUpvotes = function(post){
       post.upvotes += 1;
-    };
+    }
   }]);
