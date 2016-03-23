@@ -23,7 +23,11 @@ app.controller('MainCtrl', [
     };
     $scope.incrementUpvotes = function(post){
       post.upvotes += 1;
-    }
+    };
+    $scope.deletePost = function(post) {
+      var index = $scope.posts.indexOf(this.post);
+      $scope.posts.splice(index,1);
+    };
   }]);
 
 app.controller('PostsCtrl', [
@@ -31,7 +35,7 @@ app.controller('PostsCtrl', [
   '$stateParams',
   'posts',
   function($scope, $stateParams, posts) {
-    $scope.post = posts.post[$stateParams.id];
+    $scope.post = posts.posts[$stateParams.id];
     $scope.addComment = function() {
       if ($scope.body === '') {return;}
       $scope.post.comments.push({
@@ -41,16 +45,23 @@ app.controller('PostsCtrl', [
       });
       $scope.body = '';
     };
+    $scope.incrementUpvotes=function(comment) {
+      comment.upvotes +=1;
+    };
+    $scope.deletePost= function(post) {
+      var index = $scope.posts.indexOf(post);
+      $scope.posts.splice(index,1);
+    };
 }]);
 
 app.factory('posts', [function(){
   var o = {
     posts: [
-      {title: 'Github', upvotes: 53, url: "https://www.github.com"},
-      {title: 'HackerNews', upvotes: 23, url: "https://news.ycombinator.com"},
-      {title: 'Twitter', upvotes: 25, url: "https://www.twitter.com"},
-      {title: 'Google', upvotes: 39, url: "https://www.google.com"},
-      {title: 'GeekWire', upvotes: 44, url: "https://www.geekwire.com"}
+      {title: 'Github', upvotes: 53, url: "https://www.github.com", comments: []},
+      {title: 'HackerNews', upvotes: 23, url: "https://news.ycombinator.com", comments: []},
+      {title: 'Twitter', upvotes: 25, url: "https://www.twitter.com", comments: []},
+      {title: 'Google', upvotes: 39, url: "https://www.google.com", comments: []},
+      {title: 'GeekWire', upvotes: 44, url: "https://www.geekwire.com", comments: []}
     ]
   };
   return o;
